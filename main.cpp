@@ -11,7 +11,9 @@ int main(int argc, char const *argv[])
     UNUSED(argv);
     try
     {
+        int a = 1;
         std::cout << "Hello world" << std::endl;
+        fmt::print("Hello from fmt {}", a);
     }
     catch(const std::exception &e)
     {
