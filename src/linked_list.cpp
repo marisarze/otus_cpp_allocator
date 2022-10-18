@@ -1,3 +1,4 @@
+#include "linked_list.h"
 
 template <class T>
 void StackLinkedList<T>::push(Node * newNode) {

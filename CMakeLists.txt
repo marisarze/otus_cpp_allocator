@@ -15,7 +15,7 @@ project(allocator VERSION ${PROJECT_VESRION})
 
 
 
-add_executable(allocator main.cpp my_allocator.cpp)
+add_executable(allocator main.cpp pool_allocator.cpp)
 
 target_link_libraries(allocator fmt) 
 
@@ -26,7 +26,7 @@ set_target_properties(allocator
 )
 
 target_include_directories(allocator
-    PRIVATE "${CMAKE_CURRENT_BINARY_DIR}"
+    PRIVATE "${CMAKE_CURRENT_BINARY_DIR}" include
 )
 
 if (MSVC)

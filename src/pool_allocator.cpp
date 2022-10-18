@@ -21,7 +21,14 @@ PoolAllocator::~PoolAllocator() {
     std::free(start_ptr);
 }
 
-void *PoolAllocator::allocate(const std::size_t in_allocation_size, const std::size_t alignment) {
+void *PoolAllocator::allocate(size_t num_elements) {
+    auto free_position = free_list.pop();
+    if (free_position==nullptr){
+
+    }
+        expand(num_elements);
+        free_position = free_list.pop(); 
+    return free_position;
     assert(in_allocation_size == this->chunk_size && "Allocation size must be equal to chunk size");
 
     Node* free_position = free_list.pop();
@@ -43,7 +50,7 @@ void PoolAllocator::Reset() {
     m_used = 0;
     m_peak = 0;
     // Create a linked-list with all free positions
-    const int nChunks = m_totalSize / m_chunkSize;
+    const int nChunks = m_totalSize / element_ize;
     for (int i = 0; i < nChunks; ++i) {
         std::size_t address = (std::size_t) m_start_ptr + i * m_chunkSize;
         m_freeList.push((Node *) address);

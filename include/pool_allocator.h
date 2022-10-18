@@ -9,7 +9,7 @@ private:
     StackLinkedList<FreeHeader> free_list;
 
     void* start_ptr = nullptr;
-    std::size_t chunk_size;
+    std::size_t entry_size;
 public:
     PoolAllocator(const std::size_t in_total_size, const std::size_t in_chunk_size);
 
