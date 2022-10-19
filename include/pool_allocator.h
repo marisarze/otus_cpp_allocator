@@ -1,17 +1,16 @@
 #include "allocator.h"
 #include "stack_linked_list.h"
 
-class PoolAllocator : public Allocator {
+template <class T, typename alignment>
+class PoolAllocator {
 private:
-    struct  FreeHeader{
-    };
-    using Node = StackLinkedList<FreeHeader>::Node;
-    StackLinkedList<FreeHeader> free_list;
+    using Node = StackLinkedList<T>::Node;
+    StackLinkedList<T> free_list;
 
     void* start_ptr = nullptr;
-    std::size_t entry_size;
+    std::size_t entry_size = (sizeof(Node)+size(alignment)-1) & ~sizeof(alignment);
 public:
-    PoolAllocator(const std::size_t in_total_size, const std::size_t in_chunk_size);
+    PoolAllocator(const std::size_t in_chunk_size);
 
     virtual ~PoolAllocator();
 
