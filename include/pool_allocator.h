@@ -1,26 +1,25 @@
 #include "allocator.h"
 #include "stack_linked_list.h"
+#include <cstdint>
 
-template <class T, typename alignment>
+template <class T, typename alignment= std::uint32_t>
 class PoolAllocator {
 private:
     using Node = StackLinkedList<T>::Node;
     StackLinkedList<T> free_list;
 
     void* start_ptr = nullptr;
-    std::size_t entry_size = (sizeof(Node)+size(alignment)-1) & ~sizeof(alignment);
+    std::size_t reserve_width, segment_width_bytes, entry_size_bytes;
 public:
-    PoolAllocator(const std::size_t in_chunk_size);
+    PoolAllocator(const std::size_t in_reserve_width);
 
-    virtual ~PoolAllocator();
+    ~PoolAllocator();
 
-    virtual void* allocate(const std::size_t size, const std::size_t alignment = 0) override;
+    void* allocate(const std::size_t num_elements);
 
-    virtual void free(void* ptr) override;
+    void deallocate(void* ptr);
 
-    virtual void init() override;
-
-    virtual void reset();
+    void expand();
 private:
     PoolAllocator(PoolAllocator &poolAllocator);
 
