@@ -24,7 +24,11 @@ int main(int argc, char const *argv[])
     UNUSED(argv);
     try
     {
-        
+        uintptr_t bitwise_result;
+        for (int i=0;i<10000;i++){
+            auto t0 = std::time(nullptr);
+            bitwise_result = 
+        }
         // int x = 635;
         // int* ptr = &x;
         // std::cout << ptr << std::endl;
