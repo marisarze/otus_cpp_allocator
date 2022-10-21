@@ -11,13 +11,13 @@
 
 uintptr_t bitwise(uintptr_t input, int alignment){
     return (input + alignment -1) & -alignment;
-};
+}
 
 uintptr_t through_remainder(uintptr_t input, int alignment){
     uintptr_t temp = input % alignment;
     if (temp) return input - temp + 32; 
     return input;
-};
+}
 
 
 int main(int argc, char const *argv[])
@@ -46,31 +46,36 @@ int main(int argc, char const *argv[])
         std::cout << "Through remainder time: " << dt.count() << std::endl;
         std::cout << "Through remainder result: " << through_remainder_result << std::endl;
         std::cout << "Bitwise result: " << bitwise_result << std::endl;
-        // const auto remainder = ptr_int % 32;
-        // const auto expected = ptr_int - remainder + 32;
-        // std::bitset<32> ptr_bits(ptr_int);
-        // std::bitset<32> align_bits(32);
-        // std::bitset<32> negate_align_bits(-32);
+        const auto remainder = ptr_int % 32;
+        const auto expected = ptr_int - remainder + 32;
+        std::bitset<32> ptr_bits(ptr_int);
+        std::bitset<32> align_bits(32);
+        std::bitset<32> negate_align_bits(-32);
         
-        // std::cout << "Remainder of dividing the address by 32: " << remainder << std::endl;
-        // std::cout << "Expected adress after alignment: " << expected << std::endl;
-        // std::cout << "---------------------------------" << std::endl;
-        // std::cout << "Initial ptr_bits:  " << ptr_bits << std::endl;
-        // std::cout << "Align bits:        " << align_bits << std::endl;
-        // std::cout << "Negate align bits: " << negate_align_bits << std::endl;
-        // std::cout << "---------------------------------" << std::endl;
-        // const auto extended = ptr_int + 32 - 1;
-        // const auto and_result = extended & -32;
-        // std::bitset<32> and_result_bit(and_result);
-        // std::bitset<32> extended_bits(extended);
+        std::cout << "Remainder of dividing the address by 32: " << remainder << std::endl;
+        std::cout << "Expected adress after alignment: " << expected << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "Initial ptr_bits:  " << ptr_bits << std::endl;
+        std::cout << "Align bits:        " << align_bits << std::endl;
+        std::cout << "Negate align bits: " << negate_align_bits << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+        const auto extended = ptr_int + 32 - 1;
+        const auto and_result = extended & -32;
+        std::bitset<32> and_result_bit(and_result);
+        std::bitset<32> extended_bits(extended);
 
-        // std::cout << "Extended bits:     " << extended_bits << std::endl;
-        // std::cout << "Negate align bits: " << negate_align_bits << std::endl;
-        // std::cout << "Bit and operation  " << and_result_bit << std::endl;
-        // std::cout << "---------------------------------" << std::endl;
-        // std::cout << "Result:   " << and_result << std::endl;
-        // std::cout << "Expected: " << expected << std::endl;
-        // std::cout << "---------------------------------" << std::endl;
+        std::cout << "Extended bits:     " << extended_bits << std::endl;
+        std::cout << "Negate align bits: " << negate_align_bits << std::endl;
+        std::cout << "Bit and operation  " << and_result_bit << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+        std::cout << "Result:   " << and_result << std::endl;
+        std::cout << "Expected: " << expected << std::endl;
+        std::cout << "---------------------------------" << std::endl;
+
+        int a = 567;
+        int* ptr2 = &a;
+        std::cout << "some pointer adress: " << (uintptr_t)ptr2 << std::endl;
+
 
         // int a = 1;
         // std::cout << "Hello world" << std::endl;

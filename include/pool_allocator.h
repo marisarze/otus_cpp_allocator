@@ -8,7 +8,7 @@ private:
     using Node = StackLinkedList<T>::Node;
     StackLinkedList<T> free_list;
 
-    void* start_ptr = nullptr;
+    void* start_ptr, last_segment_ptr;
     std::size_t reserve_elements_number, segment_width_bytes, entry_size_bytes;
 public:
     PoolAllocator(const std::size_t in_reserve_elements_number);
