@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <bitset>
 #include <ctime>
+#include <chrono>
+
 #define UNUSED(variable) (void)variable
 
 uintptr_t bitwise(uintptr_t input, int alignment){
@@ -24,15 +26,26 @@ int main(int argc, char const *argv[])
     UNUSED(argv);
     try
     {
-        uintptr_t bitwise_result;
+        int x = 635;
+        int* ptr = &x;
+        std::cout << ptr << std::endl;
+        const auto ptr_int = reinterpret_cast<uintptr_t>(ptr);
+        uintptr_t bitwise_result, through_remainder_result;
+        auto t0 = std::chrono::high_resolution_clock::now();
         for (int i=0;i<10000;i++){
-            auto t0 = std::time(nullptr);
-            bitwise_result = 
+            bitwise_result = bitwise(ptr_int, 32);
         }
-        // int x = 635;
-        // int* ptr = &x;
-        // std::cout << ptr << std::endl;
-        // const auto ptr_int = reinterpret_cast<uintptr_t>(ptr);
+        auto dt = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - t0);
+        std::cout << "Bitwise time: " << dt.count() << std::endl;
+
+        t0 = std::chrono::high_resolution_clock::now();
+        for (int i=0;i<10000;i++){
+            through_remainder_result = through_remainder(ptr_int, 32);
+        }
+        dt = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - t0);
+        std::cout << "Through remainder time: " << dt.count() << std::endl;
+        std::cout << "Through remainder result: " << through_remainder_result << std::endl;
+        std::cout << "Bitwise result: " << bitwise_result << std::endl;
         // const auto remainder = ptr_int % 32;
         // const auto expected = ptr_int - remainder + 32;
         // std::bitset<32> ptr_bits(ptr_int);
