@@ -6,7 +6,6 @@ public:
         T data;
         Node* next;
     };
-    
     Node* head;
 public:
     StackLinkedList() = default;

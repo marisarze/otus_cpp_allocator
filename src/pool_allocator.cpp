@@ -1,47 +1,51 @@
-#include "include/pool_allocator.h"
-#include <assert.h>
-#include <stdint.h>
-#include <stdlib.h>    
-#include <algorithm>
+#include "pool_allocator.h"
 #include <cstdint>
+#include <cstdlib>
+#include <cstddef>
 
-template <class T, std::size_t alignment = 64>
-PoolAllocator<T, alignment>::PoolAllocator(size_t in_reserve_elements_number)
-: reserve_width{in_reserve_width}(
-    entry_size_bytes = (sizeof(Node)+alignment-1) & -alignment;
-    segment_width_bytes = entry_size_bytes * (in_reserve_elements_number + 1);
-)
-
-PoolAllocator::~PoolAllocator() {
-    std::free(start_ptr);
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+PoolAllocator<T, reserve_size, alignment>::PoolAllocator()
+{
+    entry_size = (sizeof(Node)+alignment-1) & -alignment;
+    segment_width = entry_size * (reserve_size+1);
 }
 
-template <class T, std::size_t alignment = 64>
-void *PoolAllocator<T, alignment>::allocate(size_t in_num_elements) {
+
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+PoolAllocator<T, reserve_size, alignment>::~PoolAllocator() {
+    while(true){
+        auto ptr = segments.pop();
+        if(ptr)
+            std::free(ptr);
+        else
+            return;
+    }    
+}
+
+
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+void* PoolAllocator<T, reserve_size, alignment>::allocate(size_type num_elements) {
     auto free_position = free_list.pop();
     if (free_position==nullptr){
-        expand(num_elements);
+        expand();
         free_position = free_list.pop(); 
     }
-    return (void*) free_position;
+    return (void*)free_position;
 }
 
-template <class T, std::size_t alignment = 64>
-void PoolAllocator<T, alignment>::deallocate(void* ptr) {
+
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+void PoolAllocator<T, reserve_size, alignment>::deallocate(T* ptr, size_type n) {
     free_list.push((Node*) ptr);
+}
 
 
-template <class T, std::size_t alignment = 64>
-void* PoolAllocator<T, alignment>::expand() {
-    void* segment_start_ptr = std::malloc((reserve_width+1) * entry_size);
-    if (start_ptr==nullptr)
-        start_ptr = segment_start_ptr;
-    else (
-        Node* next_segment_ptr = (uintptr_t)last_segment_ptr+(reserve_element_number+1)*entry_size_bytes;
-        next_segment_ptr->next = 
-    )
-    for (int i = 0; i < reserve_elements_number; ++i) {
-        std::size_t address = (uintptr_t) segment_start_ptr + i * entry_size_bytes;
-        m_freeList.push((Node *) address);
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+void PoolAllocator<T, reserve_size, alignment>::expand() {
+    void* new_segment_ptr = std::malloc(segment_width);
+    segments.push((Node*) new_segment_ptr);
+    for (int i = 1; i <= reserve_size; ++i) {
+        std::size_t address = (std::byte*)new_segment_ptr + i * entry_size;
+        free_list.push((Node*) address);
     }
 }

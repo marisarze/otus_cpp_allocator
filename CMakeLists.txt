@@ -13,9 +13,9 @@ FetchContent_MakeAvailable(fmt)
 
 project(allocator VERSION ${PROJECT_VESRION})
 
+AUX_SOURCE_DIRECTORY(src SOURCES) 
 
-
-add_executable(allocator main.cpp)
+add_executable(allocator main.cpp ${SOURCES})
 
 target_link_libraries(allocator fmt) 
 

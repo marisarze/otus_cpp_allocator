@@ -1,26 +1,38 @@
-#include "allocator.h"
-#include "stack_linked_list.h"
+#include "linked_list.h"
 #include <cstdint>
+#include <type_traits>
+#include <cstddef>
 
-template <class T, std::size_t alignment = 64>
+template <typename T, std::size_t reserve_size, std::size_t alignment = 64>
 class PoolAllocator {
 private:
     using Node = StackLinkedList<T>::Node;
-    StackLinkedList<T> free_list;
-
-    void* start_ptr, last_segment_ptr;
-    std::size_t reserve_elements_number, segment_width_bytes, entry_size_bytes;
+    StackLinkedList<T> free_list, segments;
+    std::size_t segment_width, entry_size;
 public:
-    PoolAllocator(const std::size_t in_reserve_elements_number);
+    using value_type                                = T;
+    using size_type                                 = std::size_t;
+    using pointer                                   = T*;
+    using const_pointer                             = const T*;
+    using reference                                 = T&;
+    using const_reference                           = const T&;
+    using difference_type                           = std::ptrdiff_t;
+    using propagate_on_container_move_assignment    = std::ptrdiff_t;
+    template <typename U>
+    struct rebind
+    {
+        using other = PoolAllocator<U, reserve_size, alignment>;
+    };
+    using is_always_equal                           = std::true_type;
+    
+    
+    PoolAllocator();
 
     ~PoolAllocator();
 
-    void* allocate(const std::size_t num_elements);
+    void* allocate(size_type num_elements);
 
-    void deallocate(void* ptr);
+    void deallocate(T* ptr, size_type n);
 
     void expand();
-private:
-    PoolAllocator(PoolAllocator &poolAllocator);
-
 };
