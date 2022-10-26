@@ -1,12 +1,14 @@
 #include "linked_list.h"
 
-template <class T>
+
+template <typename T>
 void StackLinkedList<T>::push(Node * newNode) {
     newNode->next = head;
     head = newNode;
 }
 
-template <class T>
+
+template <typename T>
 typename StackLinkedList<T>::Node* StackLinkedList<T>::pop() {
     Node * top = head;
     head = head->next;

@@ -1,4 +1,5 @@
 #include "pool_allocator.h"
+#include "linked_list.h"
 #include <iostream>
 #include <memory>
 #include <fmt/core.h>
@@ -9,6 +10,7 @@
 #include <memory.h>
 #include <map>
 #include <vector>
+#include <cstddef>
 #define UNUSED(variable) (void)variable
 
 
@@ -18,8 +20,9 @@ int main(int argc, char const *argv[])
     UNUSED(argv);
     try
     {
+        PoolAllocator<int, 10, 16> myalloc;
         //std::map<std::pair<int, int>, PoolAllocator<std::pair<int, int>>> mymap;
-        std::vector<int, PoolAllocator<int, 10>> myvec;
+        //std::vector<int, PoolAllocator<int, 10, 16>> myvec;
     }
     catch(const std::exception &e)
     {

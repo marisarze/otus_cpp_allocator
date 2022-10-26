@@ -1,5 +1,6 @@
+#pragma once
 
-template <class T>
+template <typename T>
 class StackLinkedList {
 public:
     struct Node {
@@ -7,9 +8,9 @@ public:
         Node* next;
     };
     Node* head;
-public:
+
     StackLinkedList() = default;
-    StackLinkedList(StackLinkedList &stackLinkedList) = delete;
-    void push(Node * newNode);
+    StackLinkedList(StackLinkedList<T>& StackLinkedList) = delete;
+    void push(Node* newNode);
     Node* pop();
 };

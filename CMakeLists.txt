@@ -15,7 +15,11 @@ project(allocator VERSION ${PROJECT_VESRION})
 
 AUX_SOURCE_DIRECTORY(src SOURCES) 
 
-add_executable(allocator main.cpp ${SOURCES})
+add_executable(allocator main.cpp ${SOURCES} include/linked_list.h include/pool_allocator.h  )
+
+target_include_directories(allocator
+    PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" include src
+)
 
 target_link_libraries(allocator fmt) 
 
@@ -25,9 +29,7 @@ set_target_properties(allocator
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(allocator
-    PRIVATE "${CMAKE_CURRENT_BINARY_DIR}" include
-)
+
 
 if (MSVC)
     target_compile_options(allocator PRIVATE

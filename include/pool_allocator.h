@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <cstddef>
 
-template <typename T, std::size_t reserve_size, std::size_t alignment = 64>
+template <typename T, std::size_t reserve_size, std::size_t alignment>
 class PoolAllocator {
 private:
     using Node = StackLinkedList<T>::Node;
