@@ -15,7 +15,7 @@ project(allocator VERSION ${PROJECT_VESRION})
 
 AUX_SOURCE_DIRECTORY(src SOURCES) 
 
-add_executable(allocator main.cpp ${SOURCES} include/linked_list.h include/pool_allocator.h  )
+add_executable(allocator main.cpp ${SOURCES} linked_list.h pool_allocator.h linked_list.cpp pool_allocator.cpp)
 
 target_include_directories(allocator
     PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" include src
