@@ -6,7 +6,7 @@
 template <typename T, std::size_t reserve_size, std::size_t alignment>
 class PoolAllocator {
 private:
-    using Node = StackLinkedList<T>::Node;
+    using Node = typename StackLinkedList<T>::Node;
     StackLinkedList<T> free_list, segments;
     std::size_t segment_width, entry_size;
 public:
@@ -25,7 +25,7 @@ public:
     };
     using is_always_equal                           = std::true_type;
     
-    
+    static void print();
     PoolAllocator();
 
     ~PoolAllocator();

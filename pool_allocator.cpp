@@ -2,6 +2,15 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstddef>
+#include <iostream>
+
+#define UNUSED(variable) (void)variable
+
+template <typename T, std::size_t reserve_size, std::size_t alignment>
+void PoolAllocator<T, reserve_size, alignment>::print()
+{
+    std::cout << "Hello from allocator"<< std::endl;
+}
 
 template <typename T, std::size_t reserve_size, std::size_t alignment>
 PoolAllocator<T, reserve_size, alignment>::PoolAllocator()
@@ -36,6 +45,7 @@ void* PoolAllocator<T, reserve_size, alignment>::allocate(size_type num_elements
 
 template <typename T, std::size_t reserve_size, std::size_t alignment>
 void PoolAllocator<T, reserve_size, alignment>::deallocate(T* ptr, size_type n) {
+
     free_list.push((Node*) ptr);
 }
 

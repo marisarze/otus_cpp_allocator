@@ -1,4 +1,4 @@
-#include "pool_allocator.h"
+#include "pool_allocator.cpp"
 #include <iostream>
 #include <memory>
 #include <fmt/core.h>
@@ -19,9 +19,10 @@ int main(int argc, char const *argv[])
     UNUSED(argv);
     try
     {
-        PoolAllocator<int, 10, 16> myalloc;
+        // using r = PoolAllocator<int, 10, 16>;
+        // r::print();
         //std::map<std::pair<int, int>, PoolAllocator<std::pair<int, int>>> mymap;
-        //std::vector<int, PoolAllocator<int, 10, 16>> myvec;
+        std::vector<int, PoolAllocator<int, 10, 16>> myvec;
     }
     catch(const std::exception &e)
     {
