@@ -25,7 +25,7 @@ target_link_libraries(allocator fmt)
 
 set_target_properties(allocator
     PROPERTIES
-    CXX_STANDARD 20
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
