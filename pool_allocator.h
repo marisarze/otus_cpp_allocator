@@ -35,7 +35,7 @@ public:
 
     ~PoolAllocator();
 
-    void* allocate(size_type num_elements);
+    T* allocate(size_type num_elements);
 
     void deallocate(T* ptr, size_type n);
 
@@ -66,14 +66,14 @@ PoolAllocator<T, reserve_size, alignment>::~PoolAllocator() {
 
 
 template <typename T, std::size_t reserve_size, std::size_t alignment>
-void* PoolAllocator<T, reserve_size, alignment>::allocate(size_type num_elements) {
+T* PoolAllocator<T, reserve_size, alignment>::allocate(size_type num_elements) {
     UNUSED(num_elements);
     Node* free_position = free_list.pop();
     if (free_position==nullptr){
         expand();
         free_position = free_list.pop(); 
     }
-    return reinterpret_cast<void*>(free_position);
+    return reinterpret_cast<T*>(free_position);
 }
 
 

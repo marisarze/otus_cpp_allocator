@@ -1,7 +1,7 @@
 #include "pool_allocator.h"
-//#include <iostream>
+#include <iostream>
 #include <memory>
-#include <fmt/core.h>
+//#include <fmt/core.h>
 #include <cstdint>
 #include <bitset>
 #include <ctime>
@@ -11,23 +11,27 @@
 #include <vector>
 #include <cstddef>
 #include <algorithm>
+#include <cmath>
 #define UNUSED(variable) (void)variable
 
 
-/**
- * @brief Utility function for printing messages using <fmt> library plus new line character.
- * Usage: println("Some sentence for formatting {}", "XXX") results to "Some sentence for formatting XXX"
- *  
- * @tparam Args types of parameters for formatting target message
- * @param format target message for printing
- * @param args formatting variables
- */
-template <typename... Args>
-void println(std::string format, const Args&... args) {
-  fmt::print(format, args...);
-  std::putc('\n', stdout);
-}
+// /**
+//  * @brief Utility function for printing messages using <fmt> library plus new line character.
+//  * Usage: println("Some sentence for formatting {}", "XXX") results to "Some sentence for formatting XXX"
+//  *  
+//  * @tparam Args types of parameters for formatting target message
+//  * @param format target message for printing
+//  * @param args formatting variables
+//  */
+// template <typename... Args>
+// void println(std::string format, const Args&... args) {
+//   fmt::print(format, args...);
+//   std::putc('\n', stdout);
+// }
 
+int fact(int n){
+    return std::tgamma(n + 1);  
+}  
 
 
 int main(int argc, char const *argv[])
@@ -38,21 +42,21 @@ int main(int argc, char const *argv[])
     {
         // using r = PoolAllocator<int, 10, 16>;
         // r::print();
-        //std::map<std::pair<int, int>, PoolAllocator<std::pair<int, int>>> mymap;
-        std::vector<int, PoolAllocator<int, 10, 32>> myvec;
-        for (int i=0;i<10;i++){
-            myvec.push_back(i);
+        // std::vector<int, PoolAllocator<int, 10, 64>> myvec;
+        std::map<int, int, std::less<int>, PoolAllocator<std::pair<int, int>, 10, 64>> mymap;
+        int n = 10;
+        for (int i=0;i<n;i++){
+            mymap[i] = fact(i);
         }
-        // std::fill(myvec.begin(), myvec.end(), -4);
-        // for (auto elem: myvec){
-        //     fmt::print("{}", elem);
-        // }
+        for (auto it = mymap.begin();it!=mymap.end();it++){
+            std::cout << it->first << " " << it->second << std::endl;
+        }
 
         
     }
     catch(const std::exception &e)
     {
-        //std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
     }
 
     return 0;

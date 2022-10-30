@@ -7,7 +7,7 @@ public:
         T data;
         Node* next;
     };
-    Node* head;
+    Node* head; 
 
     StackLinkedList() = default;
     StackLinkedList(StackLinkedList<T>& StackLinkedList) = delete;
@@ -26,6 +26,8 @@ void StackLinkedList<T>::push(Node * newNode) {
 template <typename T>
 typename StackLinkedList<T>::Node* StackLinkedList<T>::pop() {
     Node * top = head;
-    head = head->next;
+    if (head!=nullptr){
+        head = head->next;
+    }    
     return top;
 }
